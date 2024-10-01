@@ -12,8 +12,7 @@ Instalujemy biblioteki:
 Po dodaniu jakiejś biblioteki trzeba wrzucić
     pip freeze > requirements.txt
 
-Następnie cd app/src
-klikamy python app.py i w przeglądarce bierzemy adres /isRunning i sprawdzamy czy śmiga
+Następnie klikamy python run.py i w przeglądarce bierzemy adres /isRunning i sprawdzamy czy śmiga
 
 
 
