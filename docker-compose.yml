@@ -1,0 +1,20 @@
+version: '3.8'
+
+#Plik do postawienia bazy lokalnie na docker
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: receipt_tracker
+    restart: always
+    environment:
+      POSTGRES_USER: receipt_tracker
+      POSTGRES_PASSWORD: receipt_tracker
+      POSTGRES_DB: receipt_tracker
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
