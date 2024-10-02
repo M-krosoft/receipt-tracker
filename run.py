@@ -2,7 +2,7 @@ from flask import jsonify
 from sqlalchemy import text
 
 from app import create_app, db
-from app.config import DevelopmentConfig
+from app.app_config import DevelopmentConfig
 
 config = DevelopmentConfig()
 app = create_app(config)
@@ -14,7 +14,7 @@ def home():
 
 
 @app.route('/test_connection', methods=['GET'])
-def test_db_connection():
+def db_connection_test():
     with app.app_context():
         try:
             db.session.execute(text("SELECT 1"))
@@ -24,4 +24,4 @@ def test_db_connection():
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(port=5000)

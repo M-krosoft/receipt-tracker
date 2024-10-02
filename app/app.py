@@ -3,7 +3,7 @@ import logging
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
-from .config import Config
+from .app_config import Config
 
 logger = logging.getLogger(__name__)
 db = SQLAlchemy()
