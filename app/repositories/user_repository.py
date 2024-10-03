@@ -1,5 +1,6 @@
-from app import mapper, db
-from app.dtos import UserDTO
+import app.mappers.user_mapper as mapper
+from app import db
+from app.dtos.user_dto import UserDTO
 from app.models.user import User
 
 

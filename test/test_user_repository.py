@@ -3,7 +3,7 @@ import unittest
 import app.repositories.user_repository as sut
 from app import create_app, db
 from app.app_config import TestingConfig
-from app.dtos import UserDTO
+from app.dtos.user_dto import UserDTO
 from app.models.user import User
 
 
