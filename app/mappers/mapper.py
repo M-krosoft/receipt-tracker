@@ -1,4 +1,4 @@
-from app.dtos import UserDTO
+from app.dtos.user_dto import UserDTO
 from app.models.user import User
 
 
