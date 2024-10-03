@@ -16,7 +16,10 @@ def create_app(config: Config):
 
     _app = Flask(__name__)
     _app.config.from_object(config)
+
     db.init_app(_app)
+    with _app.app_context():
+        db.create_all()
 
     return _app
 
