@@ -3,7 +3,6 @@ from sqlalchemy import text
 
 from app import create_app, db
 from app.app_config import DevelopmentConfig
-from flask_migrate import Migrate
 
 from dotenv import load_dotenv
 
@@ -11,8 +10,6 @@ load_dotenv()
 
 config = DevelopmentConfig()
 app = create_app(config)
-
-migrate = Migrate(app, db)
 
 
 @app.route('/isRunning')
