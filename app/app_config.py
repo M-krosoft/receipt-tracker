@@ -22,6 +22,12 @@ class DevelopmentConfig(Config):
     SECRET_KEY = ''
 
 
+class DevelopmentSqliteConfig(Config):
+    DEBUG = True
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///receipt-tracker.db'
+    SECRET_KEY = ''
+
+
 class ProductionConfig(Config):
     DEBUG = False
     TESTING = False
@@ -32,4 +38,4 @@ class ProductionConfig(Config):
 class TestingConfig(Config):
     TESTING = True
     DEBUG = True
-    DATABASE_URL = "sqlite:///:memory:"
+    SQLALCHEMY_DATABASE_URI = "sqlite:///:memory:"
