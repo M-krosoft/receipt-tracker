@@ -2,11 +2,13 @@ import logging
 
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 
 from .app_config import Config
 
 logger = logging.getLogger(__name__)
 db = SQLAlchemy()
+migrate = Migrate()
 
 
 def create_app(config: Config):
@@ -18,6 +20,8 @@ def create_app(config: Config):
     _app.config.from_object(config)
 
     db.init_app(_app)
+    migrate.init_app(_app, db)
+
     with _app.app_context():
         db.create_all()
 
