@@ -19,7 +19,7 @@ def create_app(config: Config):
     _app = Flask(__name__)
     _app.config.from_object(config)
 
-    main_bp = Blueprint('main', __name__, url_prefix='/receipt-tracker')
+    main_bp = Blueprint('main', __name__, url_prefix=config.APPLICATION_ROOT)
     auth_bp = _prepare_authentication()
     main_bp.register_blueprint(auth_bp)
 
