@@ -8,6 +8,7 @@ from .app_config import Config
 
 logger = logging.getLogger(__name__)
 db = SQLAlchemy()
+jwt = JWTManager()
 
 
 def create_app(config: Config):
@@ -18,8 +19,6 @@ def create_app(config: Config):
     _app = Flask(__name__)
     _app.config.from_object(config)
 
-    JWTManager(_app)
-
     main_bp = Blueprint('main', __name__, url_prefix='/receipt-tracker')
     auth_bp = _prepare_authentication()
     main_bp.register_blueprint(auth_bp)
@@ -27,6 +26,7 @@ def create_app(config: Config):
     _app.register_blueprint(main_bp)
 
     db.init_app(_app)
+    jwt.init_app(_app)
     with _app.app_context():
         db.create_all()
 
