@@ -1,10 +1,11 @@
 import unittest
 
-import app.repositories.user_repository as sut
 from app import create_app, db
 from app.app_config import TestingConfig
 from app.dtos.user_dto import UserDTO
+from app.exceptions import UserNotExistError
 from app.models.user import User
+from app.repositories.user_repository import UserRepository
 
 
 def _save_user_and_return() -> User:
@@ -24,6 +25,7 @@ class TestUserRepository(unittest.TestCase):
         self.app = create_app(config=self.config)
         self.app_context = self.app.app_context()
         self.app_context.push()
+        self.sut = UserRepository()
         db.create_all()
 
     def tearDown(self):
@@ -40,7 +42,7 @@ class TestUserRepository(unittest.TestCase):
         )
 
         # when
-        sut.create_new_user(user_dto)
+        self.sut.create_new_user(user_dto)
 
         # then
         saved_user = User.query.filter_by(email=user_dto.email).first()
@@ -55,7 +57,7 @@ class TestUserRepository(unittest.TestCase):
         # given
         user = _save_user_and_return()
         # when
-        result = sut.get_user_by_id(1)
+        result = self.sut.get_user_by_id(1)
         # then
         self._assert_dto_equals_user(result, expected=user)
 
@@ -63,7 +65,7 @@ class TestUserRepository(unittest.TestCase):
         # given
         user = _save_user_and_return()
         # when
-        result = sut.get_user_by_email(user.email)
+        result = self.sut.get_user_by_email(user.email)
         # then
         self._assert_dto_equals_user(result, expected=user)
 
@@ -71,7 +73,7 @@ class TestUserRepository(unittest.TestCase):
         # given
         user_to_del = _save_user_and_return()
         # when
-        sut.delete_user_by_id(user_id=user_to_del.id)
+        self.sut.delete_user_by_id(user_id=user_to_del.id)
         # then
         deleted = User.query.filter_by(id=user_to_del.id).first()
         self.assertIsNone(deleted)
@@ -81,11 +83,31 @@ class TestUserRepository(unittest.TestCase):
         user_to_update = _save_user_and_return()
         new_password = '<PASSWORD-CHANGED>'
         # when
-        sut.update_user_password(user_id=user_to_update.id, new_password=new_password)
+        self.sut.update_user_password(user_id=user_to_update.id, new_password=new_password)
         # then
         updated = User.query.filter_by(id=user_to_update.id).first()
         self.assertIsNotNone(updated)
         self.assertEqual(updated.password, new_password)
+
+    def test_get_user_by_id_should_throw(self):
+        # when && then
+        with self.assertRaises(UserNotExistError):
+            self.sut.get_user_by_id(123)
+
+    def test_get_user_by_email_shold_throw(self):
+        # when && then
+        with self.assertRaises(UserNotExistError):
+            self.sut.get_user_by_email('any email')
+
+    def test_delete_user_by_id_should_throw(self):
+        # when && then
+        with self.assertRaises(UserNotExistError):
+            self.sut.delete_user_by_id(123)
+
+    def test_update_user_password_shold_throw(self):
+        # when && then
+        with self.assertRaises(UserNotExistError):
+            self.sut.update_user_password(123, new_password='<PASSWORD>')
 
     def _assert_dto_equals_user(self, result: UserDTO, expected: User) -> None:
         self.assertIsNotNone(result)
