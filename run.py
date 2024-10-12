@@ -1,16 +1,28 @@
 from flask import jsonify
+from flask_jwt_extended import jwt_required
 from sqlalchemy import text
 
 from app import create_app, db
-from app.app_config import DevelopmentConfig
+from app.app_config import DevelopmentSqliteConfig
 
-config = DevelopmentConfig()
+config = DevelopmentSqliteConfig()
 app = create_app(config)
 
 
 @app.route('/isRunning')
 def home():
     return "Application is running!"
+
+
+@app.route('/protected')
+@jwt_required()
+def protected():
+    return "You reached protected endpoint!"
+
+
+@app.route('/unprotected')
+def unprotected():
+    return "You reached unprotected endpoint!"
 
 
 @app.route('/test_connection', methods=['GET'])
