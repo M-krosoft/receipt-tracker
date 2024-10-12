@@ -62,11 +62,11 @@ class AuthController:
     def create_blueprint(self) -> Blueprint:
         auth_bp = Blueprint("auth", __name__, url_prefix="/auth")
 
-        @auth_bp.route("/receipt-tracker/register", methods=["POST"])
+        @auth_bp.route("/register", methods=["POST"])
         def register():
             return self._register()
 
-        @auth_bp.route("/receipt-tracker/login", methods=["POST"])
+        @auth_bp.route("/login", methods=["POST"])
         def login():
             return self._login()
 

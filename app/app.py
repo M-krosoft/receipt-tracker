@@ -1,7 +1,6 @@
 import logging
 
-from flask import Flask
-from flask.sansio.blueprints import Blueprint
+from flask import Flask, Blueprint
 from flask_jwt_extended import JWTManager
 from flask_sqlalchemy import SQLAlchemy
 
@@ -21,8 +20,11 @@ def create_app(config: Config):
 
     JWTManager(_app)
 
+    main_bp = Blueprint('main', __name__, url_prefix='/receipt-tracker')
     auth_bp = _prepare_authentication()
-    _app.register_blueprint(auth_bp)
+    main_bp.register_blueprint(auth_bp)
+
+    _app.register_blueprint(main_bp)
 
     db.init_app(_app)
     with _app.app_context():
