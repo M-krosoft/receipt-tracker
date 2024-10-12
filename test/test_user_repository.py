@@ -109,6 +109,20 @@ class TestUserRepository(unittest.TestCase):
         with self.assertRaises(UserNotExistError):
             self.sut.update_user_password(123, new_password='<PASSWORD>')
 
+    def test_user_exist_should_return_true(self):
+        # given
+        user = _save_user_and_return()
+        # when
+        result = self.sut.does_user_exist(user.email)
+        # then
+        self.assertTrue(result)
+
+    def test_user_exist_should_return_false(self):
+        # when
+        result = self.sut.does_user_exist('any email')
+        # then
+        self.assertFalse(result)
+
     def _assert_dto_equals_user(self, result: UserDTO, expected: User) -> None:
         self.assertIsNotNone(result)
         self.assertEqual(result.id, expected.id)

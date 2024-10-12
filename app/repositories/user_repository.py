@@ -41,3 +41,8 @@ class UserRepository:
             raise UserNotExistError
         user.password = new_password
         db.session.commit()
+
+    @staticmethod
+    def does_user_exist(email: str) -> bool:
+        user = User.query.filter_by(email=email).first()
+        return user is not None
