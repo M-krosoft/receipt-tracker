@@ -3,11 +3,13 @@ import logging
 from flask import Flask, Blueprint
 from flask_jwt_extended import JWTManager
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 
 from .app_config import Config
 
 logger = logging.getLogger(__name__)
 db = SQLAlchemy()
+migrate = Migrate()
 jwt = JWTManager()
 
 
@@ -27,6 +29,8 @@ def create_app(config: Config):
 
     db.init_app(_app)
     jwt.init_app(_app)
+    migrate.init_app(_app, db)
+
     with _app.app_context():
         db.create_all()
 
