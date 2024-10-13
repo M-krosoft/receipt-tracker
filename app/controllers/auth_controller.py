@@ -38,8 +38,8 @@ class AuthController:
 
     def _register(self):
         try:
-            _request = self._verify_and_prepare_register_request()
-            self.auth_service.register_user(register_request=_request)
+            request_ = self._verify_and_prepare_register_request()
+            self.auth_service.register_user(register_request=request_)
 
             return jsonify({}), 200
         except (InvalidRequestFieldError, EmailTakenError) as error:
