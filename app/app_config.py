@@ -5,7 +5,7 @@ class Config:
     DEBUG = False
     TESTING = False
     SQLALCHEMY_DATABASE_URI = ''
-    SECRET_KEY = '2afbfac8fe49058f12874b6c7f92d6c842d2ec05f621f9b3b4ba437eb8f7b338'
+    SECRET_KEY = ''
     APPLICATION_ROOT = '/receipt-tracker'
 
     def __str__(self):
@@ -22,13 +22,13 @@ class Config:
 class DevelopmentConfig(Config):
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = 'postgresql://receipt_tracker:receipt_tracker@localhost:5432/receipt_tracker'
-    SECRET_KEY = ''
+    SECRET_KEY = os.environ.get('SECRET_KEY')
 
 
 class DevelopmentSqliteConfig(Config):
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = 'sqlite:///receipt-tracker.db'
-    SECRET_KEY = '2afbfac8fe49058f12874b6c7f92d6c842d2ec05f621f9b3b4ba437eb8f7b338'
+    SECRET_KEY = os.environ.get('SECRET_KEY')
 
 
 class ProductionConfig(Config):
