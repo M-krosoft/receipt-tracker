@@ -12,8 +12,10 @@ class Config:
         return (
             f"Config:\n"
             f"  DEBUG: {self.DEBUG}\n"
+            f"  TESTING: {self.TESTING}\n"
             f"  SQLALCHEMY_DATABASE_URI : '{self.SQLALCHEMY_DATABASE_URI}'\n"
             f"  SECRET_KEY: '{self.SECRET_KEY}'\n"
+            f" APPLICATION_ROOT: '{self.APPLICATION_ROOT}'\n"
         )
 
 
@@ -40,3 +42,15 @@ class TestingConfig(Config):
     TESTING = True
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = "sqlite:///:memory:"
+
+
+def create_config():
+    config_mode = os.getenv("CONFIG_MODE")
+    if config_mode == "development":
+        return DevelopmentConfig()
+    if config_mode == "production":
+        return ProductionConfig()
+    if config_mode == "testing":
+        return TestingConfig()
+    if config_mode == "sqlite":
+        return DevelopmentSqliteConfig()

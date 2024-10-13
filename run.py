@@ -1,11 +1,14 @@
+from dotenv import load_dotenv
 from flask import jsonify
 from flask_jwt_extended import jwt_required
 from sqlalchemy import text
 
 from app import create_app, db
-from app.app_config import DevelopmentSqliteConfig
+from app.app_config import create_config
 
-config = DevelopmentSqliteConfig()
+load_dotenv()
+
+config = create_config()
 app = create_app(config)
 
 
