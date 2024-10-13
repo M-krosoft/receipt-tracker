@@ -42,6 +42,7 @@ class TestingConfig(Config):
     TESTING = True
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = "sqlite:///:memory:"
+    SECRET_KEY = os.environ.get('SECRET_KEY')
 
 
 def create_config():
