@@ -15,7 +15,7 @@ class AuthService:
 
     def register_user(self, register_request: RegisterRequest) -> None:
         if self.repository.does_user_exist(register_request.email):
-            raise EmailTakenError
+            raise EmailTakenError(email=register_request.email)
 
         if register_request.name is None or register_request.name == "":
             raise UserNameEmptyError

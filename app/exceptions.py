@@ -1,18 +1,22 @@
 class EmailTakenError(Exception):
-    pass
+    def __init__(self, email):
+        super().__init__(f"Email '{email}' is already taken!")
 
 
 class UserNotExistError(Exception):
-    pass
+    def __init__(self):
+        super().__init__("User is not found!")
 
 
 class InvalidPasswordError(Exception):
-    pass
-
-
-class UserNameEmptyError(Exception):
-    pass
+    def __init__(self):
+        super().__init__("Password is invalid!")
 
 
 class InvalidRequestFieldError(Exception):
+    def __init__(self):
+        super().__init__("Invalid request fields!")
+
+
+class UserNameEmptyError(Exception):
     pass

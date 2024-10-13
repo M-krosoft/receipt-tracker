@@ -1,6 +1,7 @@
 from flask import request, jsonify, Blueprint
 
 from app.exceptions import InvalidRequestFieldError, EmailTakenError, InvalidPasswordError, UserNotExistError
+from app.reponses import ApiErrorResponse
 from app.requests import RegisterRequest, LoginRequest
 from app.services.auth_service import AuthService
 
@@ -36,28 +37,25 @@ class AuthController:
         try:
             _request = self._verify_and_prepare_register_request()
             self.auth_service.register_user(register_request=_request)
+
             return jsonify({'message': 'User registered properly'}), 200
-        except InvalidRequestFieldError:
-            return jsonify({"error": "Invalid request fields"}), 400
-        except EmailTakenError:
-            return jsonify({"error": f"Email {_request.email} is already taken!"}), 400
+        except (InvalidRequestFieldError, EmailTakenError) as error:
+            return jsonify(ApiErrorResponse(error).to_dict()), 400
 
     def _login(self):
-        request_data = request.get_json()
-        if request_data is None:
-            return jsonify({"error": "Invalid request fields"}), 400
-
-        email = request_data.get('email')
-        password = request_data.get('password')
-        login_request = LoginRequest(email=email, password=password)
-
         try:
+            request_data = request.get_json()
+            if request_data is None:
+                raise InvalidRequestFieldError
+
+            email = request_data.get('email')
+            password = request_data.get('password')
+            login_request = LoginRequest(email=email, password=password)
             access_token = self.auth_service.authenticate(login_request=login_request)
+
             return jsonify({"access_token": access_token}), 200
-        except UserNotExistError:
-            return jsonify({"error": f"User does with email {login_request.email} not exist"}), 400
-        except InvalidPasswordError:
-            return jsonify({"error": "Invalid password"}), 400
+        except (UserNotExistError, InvalidPasswordError, InvalidRequestFieldError) as error:
+            return jsonify(ApiErrorResponse(error).to_dict()), 400
 
     def create_blueprint(self) -> Blueprint:
         auth_bp = Blueprint("auth", __name__, url_prefix="/auth")
