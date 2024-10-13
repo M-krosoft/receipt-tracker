@@ -24,7 +24,11 @@ class AuthController:
         email = request_data.get('email')
         password = request_data.get('password')
 
-        if not AuthController.is_valid_field(name) or not AuthController.is_valid_field(email) or not AuthController.is_valid_field(password):
+        if (
+                not AuthController.is_valid_field(name)
+                or not AuthController.is_valid_field(email)
+                or not AuthController.is_valid_field(password)
+        ):
             raise InvalidRequestFieldError
 
         return RegisterRequest(
@@ -33,7 +37,6 @@ class AuthController:
             password=password)
 
     def _register(self):
-        _request = None
         try:
             _request = self._verify_and_prepare_register_request()
             self.auth_service.register_user(register_request=_request)

@@ -45,7 +45,7 @@ class TestAuthController(unittest.TestCase):
 
     def test_register_should_return_email_taken_error(self):
         # given
-        saved_user = ModelsFactory.save_user_and_return()
+        saved_user = ModelsFactory.create_user_in_db()
         register_request = RegisterRequest(name=fake.name(), email=saved_user.email, password=fake.password())
 
         # when
@@ -74,7 +74,7 @@ class TestAuthController(unittest.TestCase):
     def test_login_should_be_success(self, mock_check_password_hash):
         # given
         password = "<PASSWORD>"
-        saved_user = ModelsFactory.save_user_and_return(password=password)
+        saved_user = ModelsFactory.create_user_in_db(password=password)
         login_request = LoginRequest(email=saved_user.email, password=password)
         mock_check_password_hash.return_value = True
 
@@ -101,7 +101,7 @@ class TestAuthController(unittest.TestCase):
 
     def test_login_should_return_invalid_password_error(self):
         # given
-        saved_user = ModelsFactory.save_user_and_return()
+        saved_user = ModelsFactory.create_user_in_db()
         wrong_password = saved_user.password + fake.password()
         login_request = LoginRequest(email=saved_user.email, password=wrong_password)
 

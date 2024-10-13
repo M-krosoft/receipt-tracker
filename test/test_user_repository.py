@@ -44,7 +44,7 @@ class TestUserRepository(unittest.TestCase):
 
     def test_get_user_by_id(self):
         # given
-        user = ModelsFactory.save_user_and_return()
+        user = ModelsFactory.create_user_in_db()
         # when
         result = self.sut.get_user_by_id(1)
         # then
@@ -52,7 +52,7 @@ class TestUserRepository(unittest.TestCase):
 
     def test_get_user_by_email(self):
         # given
-        user = ModelsFactory.save_user_and_return()
+        user = ModelsFactory.create_user_in_db()
         # when
         result = self.sut.get_user_by_email(user.email)
         # then
@@ -60,7 +60,7 @@ class TestUserRepository(unittest.TestCase):
 
     def test_delete_user_by_id(self):
         # given
-        user_to_del = ModelsFactory.save_user_and_return()
+        user_to_del = ModelsFactory.create_user_in_db()
         # when
         self.sut.delete_user_by_id(user_id=user_to_del.id)
         # then
@@ -69,7 +69,7 @@ class TestUserRepository(unittest.TestCase):
 
     def test_update_user_password(self):
         # given
-        user_to_update = ModelsFactory.save_user_and_return()
+        user_to_update = ModelsFactory.create_user_in_db()
         new_password = '<PASSWORD-CHANGED>'
         # when
         self.sut.update_user_password(user_id=user_to_update.id, new_password=new_password)
@@ -100,7 +100,7 @@ class TestUserRepository(unittest.TestCase):
 
     def test_user_exist_should_return_true(self):
         # given
-        user = ModelsFactory.save_user_and_return()
+        user = ModelsFactory.create_user_in_db()
         # when
         result = self.sut.does_user_exist(user.email)
         # then

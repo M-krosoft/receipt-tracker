@@ -9,7 +9,7 @@ fake = Faker()
 class ModelsFactory:
 
     @staticmethod
-    def save_user_and_return(password=None) -> User:
+    def create_user_in_db(password=None) -> User:
         if password is None:
             password = fake.password()
         user = User(
