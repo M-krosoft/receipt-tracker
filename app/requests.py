@@ -4,8 +4,21 @@ class RegisterRequest:
         self.email = email
         self.password = password
 
+    def to_dict(self):
+        return {
+            'name': self.name,
+            'email': self.email,
+            'password': self.password,
+        }
+
 
 class LoginRequest:
     def __init__(self, email: str = None, password: str = None):
         self.email = email
         self.password = password
+
+    def to_dict(self):
+        return {
+            'email': self.email,
+            'password': self.password,
+        }

@@ -6,17 +6,7 @@ from app.dtos.user_dto import UserDTO
 from app.exceptions import UserNotExistError
 from app.models.user import User
 from app.repositories.user_repository import UserRepository
-
-
-def _save_user_and_return() -> User:
-    user = User(
-        email='<EMAIL>',
-        name='<NAME>',
-        password='<PASSWORD>'
-    )
-    db.session.add(user)
-    db.session.commit()
-    return User.query.filter_by(email=user.email).first()
+from test.models_factory import ModelsFactory
 
 
 class TestUserRepository(unittest.TestCase):
@@ -26,7 +16,6 @@ class TestUserRepository(unittest.TestCase):
         self.app_context = self.app.app_context()
         self.app_context.push()
         self.sut = UserRepository()
-        db.create_all()
 
     def tearDown(self):
         db.session.remove()
@@ -55,7 +44,7 @@ class TestUserRepository(unittest.TestCase):
 
     def test_get_user_by_id(self):
         # given
-        user = _save_user_and_return()
+        user = ModelsFactory.save_user_and_return()
         # when
         result = self.sut.get_user_by_id(1)
         # then
@@ -63,7 +52,7 @@ class TestUserRepository(unittest.TestCase):
 
     def test_get_user_by_email(self):
         # given
-        user = _save_user_and_return()
+        user = ModelsFactory.save_user_and_return()
         # when
         result = self.sut.get_user_by_email(user.email)
         # then
@@ -71,7 +60,7 @@ class TestUserRepository(unittest.TestCase):
 
     def test_delete_user_by_id(self):
         # given
-        user_to_del = _save_user_and_return()
+        user_to_del = ModelsFactory.save_user_and_return()
         # when
         self.sut.delete_user_by_id(user_id=user_to_del.id)
         # then
@@ -80,7 +69,7 @@ class TestUserRepository(unittest.TestCase):
 
     def test_update_user_password(self):
         # given
-        user_to_update = _save_user_and_return()
+        user_to_update = ModelsFactory.save_user_and_return()
         new_password = '<PASSWORD-CHANGED>'
         # when
         self.sut.update_user_password(user_id=user_to_update.id, new_password=new_password)
@@ -111,7 +100,7 @@ class TestUserRepository(unittest.TestCase):
 
     def test_user_exist_should_return_true(self):
         # given
-        user = _save_user_and_return()
+        user = ModelsFactory.save_user_and_return()
         # when
         result = self.sut.does_user_exist(user.email)
         # then
