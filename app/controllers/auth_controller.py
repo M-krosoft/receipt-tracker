@@ -38,7 +38,7 @@ class AuthController:
             _request = self._verify_and_prepare_register_request()
             self.auth_service.register_user(register_request=_request)
 
-            return jsonify({'message': 'User registered properly'}), 200
+            return 200
         except (InvalidRequestFieldError, EmailTakenError) as error:
             return jsonify(ApiErrorResponse(error).to_dict()), 400
 
