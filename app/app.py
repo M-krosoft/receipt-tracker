@@ -2,8 +2,8 @@ import logging
 
 from flask import Flask, Blueprint
 from flask_jwt_extended import JWTManager
-from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from flask_sqlalchemy import SQLAlchemy
 
 from .app_config import Config
 
@@ -21,11 +21,11 @@ def create_app(config: Config):
     _app = Flask(__name__)
     _app.config.from_object(config)
 
-    main_bp = Blueprint('main', __name__, url_prefix=config.APPLICATION_ROOT)
-    auth_bp = _prepare_authentication()
-    main_bp.register_blueprint(auth_bp)
+    main_blueprint = Blueprint('main', __name__, url_prefix=config.APPLICATION_ROOT)
+    auth_blueprint = _prepare_authentication()
+    main_blueprint.register_blueprint(auth_blueprint)
 
-    _app.register_blueprint(main_bp)
+    _app.register_blueprint(main_blueprint)
 
     db.init_app(_app)
     jwt.init_app(_app)

@@ -28,7 +28,7 @@ jobs:
 
       - name: Run tests
         env:
-          SECRET_KEY: "2afbfac8fe49058f12874b6c7f92d6c842d2ec05f621f9b3b4ba437eb8f7b338"
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
         run: |
           export PYTHONPATH=$(pwd)
           pytest test

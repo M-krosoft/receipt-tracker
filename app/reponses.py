@@ -3,7 +3,7 @@ class ApiErrorResponse:
         self.error = error.__class__.__name__
         self.message = str(error)
 
-    def to_dict(self):
+    def to_dictionary(self):
         return {
             'error': self.error,
             'message': self.message
