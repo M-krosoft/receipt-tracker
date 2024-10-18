@@ -28,12 +28,8 @@ jobs:
 
       - name: Run tests
         env:
-          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+          SECRET_KEY: ${SECRET_KEY}
         run: |
           export PYTHONPATH=$(pwd)
           pytest test
-      - name: Debug secret access
-        run: |
-          echo "Testing secret access"
-          echo "SECRET_KEY is set: ${SECRET_KEY:+True}"  # Tylko sprawdzenie, nie wypisuj wartości secretu
 
