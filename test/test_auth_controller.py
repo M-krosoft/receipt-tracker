@@ -31,7 +31,7 @@ class TestAuthController(unittest.TestCase):
         register_request = RegisterRequest(name=fake.name(), email=fake.email(), password=fake.password())
 
         # when
-        response = self.client.post("/receipt-tracker/auth/register", json=register_request.to_dictionary())
+        response = self.client.post("/receipt-tracker/auth/register", json=register_request.__dict__)
 
         # then
         saved_user = User.query.filter_by(email=register_request.email).first()
@@ -49,7 +49,7 @@ class TestAuthController(unittest.TestCase):
         register_request = RegisterRequest(name=fake.name(), email=saved_user.email, password=fake.password())
 
         # when
-        response = self.client.post("/receipt-tracker/auth/register", json=register_request.to_dictionary())
+        response = self.client.post("/receipt-tracker/auth/register", json=register_request.__dict__)
 
         # then
         response_json = response.get_json()
@@ -62,7 +62,7 @@ class TestAuthController(unittest.TestCase):
         register_request = RegisterRequest()
 
         # when
-        response = self.client.post("/receipt-tracker/auth/register", json=register_request.to_dictionary())
+        response = self.client.post("/receipt-tracker/auth/register", json=register_request.__dict__)
 
         # then
         response_json = response.get_json()
@@ -79,7 +79,7 @@ class TestAuthController(unittest.TestCase):
         mock_check_password_hash.return_value = True
 
         # when
-        response = self.client.post("/receipt-tracker/auth/login", json=login_request.to_dictionary())
+        response = self.client.post("/receipt-tracker/auth/login", json=login_request.__dict__)
 
         # then
         response_json = response.get_json()
@@ -91,7 +91,7 @@ class TestAuthController(unittest.TestCase):
         login_request = LoginRequest(email=fake.email(), password=fake.password())
 
         # when
-        response = self.client.post("/receipt-tracker/auth/login", json=login_request.to_dictionary())
+        response = self.client.post("/receipt-tracker/auth/login", json=login_request.__dict__)
 
         # then
         response_json = response.get_json()
@@ -106,7 +106,7 @@ class TestAuthController(unittest.TestCase):
         login_request = LoginRequest(email=saved_user.email, password=wrong_password)
 
         # when
-        response = self.client.post("/receipt-tracker/auth/login", json=login_request.to_dictionary())
+        response = self.client.post("/receipt-tracker/auth/login", json=login_request.__dict__)
 
         # then
         response_json = response.get_json()

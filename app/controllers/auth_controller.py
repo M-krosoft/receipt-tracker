@@ -40,7 +40,7 @@ class AuthController:
 
             return jsonify({}), 200
         except (InvalidRequestFieldError, EmailTakenError) as error:
-            return jsonify(ApiErrorResponse(error).to_dictionary()), 400
+            return jsonify(ApiErrorResponse(error).__dict__), 400
 
     def _login(self):
         try:
@@ -52,7 +52,7 @@ class AuthController:
 
             return jsonify({"accessToken": access_token}), 200
         except (UserNotExistError, InvalidPasswordError) as error:
-            return jsonify(ApiErrorResponse(error).to_dictionary()), 400
+            return jsonify(ApiErrorResponse(error).__dict__), 400
 
     def create_blueprint(self) -> Blueprint:
         auth_bp = Blueprint("auth", __name__, url_prefix="/auth")
